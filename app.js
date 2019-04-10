@@ -1,32 +1,40 @@
-var numeral, arabic;
+// var numeral, arabic;
 
-document.querySelector('#convert-btn').addEventListener('click', function () {
+document.querySelector('#convert-btn').addEventListener('click', function (e) {
     var radios = document.getElementsByName('inputType');
 
     if (checkRadios(radios) && checkInput()) {
         var numeralRadio = radios[0];
         var arabicRadio = radios[1];
         if (numeralRadio.checked) {
-            numeral = document.getElementById('inputValue').value;
+            let numeral = document.getElementById('inputValue').value;
             // isValidValue();
-            arabic = convertNumeral(numeral);
-            document.getElementById('outputValue').value = arabic;
+            // if (isValidValue())
+            let arabic = convertNumeral(numeral);
+            document.getElementById('outputValue').textContent = arabic;
 
         } else if (arabicRadio.checked) {
-            arabic = document.getElementById('inputValue').value;
-            numeral = convertArabic(arabic);
-            document.getElementById('outputValue').value = numeral;
+            let arabic = document.getElementById('inputValue').value;
+            if (isValidValue(arabic, 'arabic')) {
+                let numeral = convertArabic(arabic);
+            // console.log(numeral + ' ' + numeral);
+                document.getElementById('outputValue').textContent  = numeral;
+            // document.getElementById('outputValue').setAttribute('value', numeral); // = numeral;
+            } else {
+                alert('Please enter a number between 0 and 4000');
+            }
         }
     } else {
-        alert("Please select a conversion type.");
+        alert('Please select a conversion type.');
     }
-})
+    e.preventDefault();
+});
 
 function convertNumeral(numeral) {
-    var arabic = 0;
+    let arabic = 0;
     numeral = numeral.toUpperCase();
 
-    for (var j = 0; j < numeral.length; j++)
+    for (let j = 0; j < numeral.length; j++)
     {
         if (j < numeral.length - 1) {
             if (romanTranslate(numeral.charAt(j)) < romanTranslate(numeral.charAt(j + 1))) {
@@ -44,9 +52,8 @@ function convertNumeral(numeral) {
 }
 
 function convertArabic(arabic) {
-    var saveArabic, numeral;
-    saveArabic = arabic;
-    numeral = "";
+    let saveArabic = arabic;
+    let numeral = "";
     
     do {
         if (arabic < 4000 && arabic > 999)
@@ -114,7 +121,7 @@ function convertArabic(arabic) {
             numeral = numeral + "I";
             arabic = arabic - 1;
         }
-    } while (arabic !== 0);
+    } while (arabic > 0);
 
     return numeral;
 }
@@ -142,7 +149,7 @@ function romanTranslate(romanChar) {
 }
 
 function checkRadios(radios) {
-    for (var i = 0; i < radios.length; i++) {
+    for (let i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             return true;
         }
@@ -151,7 +158,7 @@ function checkRadios(radios) {
 }
 
 function checkInput() {
-    var input = document.getElementById('inputValue').value;
+    let input = document.getElementById('inputValue').value;
     if (input) {
         return true;
     }
@@ -162,8 +169,9 @@ function isValidValue ( value, type ) {
     if ( type === 'numeral' ) {
 
     } else if ( type === 'arabic' ) {
-        if ( !Number.isNaN(value) ) return false;
-        if ( Number.parseInt(value) > 3999 ) return false;
+        // console.log(!isNaN(value));
+        if ( isNaN(value) ) return false;
+        if ( parseInt(value) > 3999 || parseInt(value) < 1 ) return false;
     }
     return true;
 }
