@@ -1,7 +1,26 @@
 // var numeral, arabic;
 
+const temp = {
+    "students":[
+        {
+            "name":"John",
+            "year":"1980"
+        },
+        {
+            "name":"sam",
+            "year":"1954"
+        },
+        {
+            "name":"jimmy",
+            "year":"1935"
+        }
+    ]
+}
+
 document.querySelector('#convert-btn').addEventListener('click', function (e) {
+    e.preventDefault();
     var radios = document.getElementsByName('inputType');
+    // displayNames();
 
     if (checkRadios(radios) && checkInput()) {
         var numeralRadio = radios[0];
@@ -27,7 +46,6 @@ document.querySelector('#convert-btn').addEventListener('click', function (e) {
     } else {
         alert('Please select a conversion type.');
     }
-    e.preventDefault();
 });
 
 function convertNumeral(numeral) {
@@ -54,7 +72,7 @@ function convertNumeral(numeral) {
 function convertArabic(arabic) {
     let saveArabic = arabic;
     let numeral = "";
-    
+
     do {
         if (arabic < 4000 && arabic > 999)
         {
@@ -174,6 +192,15 @@ function isValidValue ( value, type ) {
         if ( parseInt(value) > 3999 || parseInt(value) < 1 ) return false;
     }
     return true;
+}
+
+function displayNames () {
+    const placement = document.getElementById('test');
+    let display = ''
+    for (const student of temp.students) {
+        display += `<tr><td>${student.name}</td><td>${student.year}</td></tr>`;
+    }
+    placement.innerHTML = display;
 }
 
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+      li > span {
+          display: inline-block;
+          text-align: left;
+          width: 75px;
+      }
+  </style>
+</head>
+<body>
+  <div>
+    <ul id="dataHere"></ul>
+  </div>
+  <script language="JavaScript">
+    var ul = $('ul#dataHere');
+    var json = { "students":[
+        { "name": "John", "year": "1980" },
+        { "name": "sam", "year": "1954" },
+        { "name": "jimmy", "year": "1935" }
+      ] };
+    $(json.students).each(function(index, item) {
+      // "LENGTHY"
+      var li = $( document.createElement('li') );
+      $( document.createElement('span')).text(item.name).appendTo(li);
+      $( document.createElement('span')).text(item.year).appendTo(li);
+      ul.append(li);
+      // "DIRTY"
+      // var htmlStr = `<span>${item.name}</span><span>${item.year}</span>`;
+      // ul.append($(document.createElement('li')).html(htmlStr));
+    });
+  </script>
+</body>
+</html>
